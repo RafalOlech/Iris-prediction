@@ -1,0 +1,28 @@
+library(randomForest)
+
+# budujemy model
+model <- randomForest(Species ~ ., data = iris)
+
+# zapisujemy go w postaci pliku
+saveRDS(model, "model_rf.RDS")
+
+
+# wczytujemy wytrenowany model
+model <- readRDS("model_rf.RDS")
+
+
+predict_class <- function(sl, sw, pl, pw) {
+  
+  # przygotowanie danych na które odpowie model
+  new_df <- data.frame(
+    Sepal.Length = sl,
+    Sepal.Width = sw,
+    Petal.Length = pl,
+    Petal.Width = pw
+  )
+  
+  # predykcja
+  pred <- as.character(predict(model, new_df))
+  
+  return(pred)
+}
